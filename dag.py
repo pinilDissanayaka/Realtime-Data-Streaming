@@ -3,6 +3,8 @@ import time
 from datetime import datetime
 import logging
 import json 
+from airflow import DAG
+from airflow.operators.python import PythonOperator
 
 
 def fetch_user_data(**kwargs):
@@ -51,8 +53,7 @@ def stream_data(**kwargs):
 
 
 
+with DAG(
 
-
-
-format_data(fetch_user_data())
-
+) as dag:
+    pass
