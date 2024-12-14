@@ -6,6 +6,9 @@ import json
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from kafka import KafkaProducer
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+
 
 def fetch_user_data(**kwargs):
     url="https://randomuser.me/api/"
@@ -21,8 +24,6 @@ def fetch_user_data(**kwargs):
     else:
         raise RuntimeError
         
-
-    
 
 def format_data(**kwargs):
     json_data=kwargs["ti"].xcom_pull(key="responce_data", task_ids="fetch_user_data")
