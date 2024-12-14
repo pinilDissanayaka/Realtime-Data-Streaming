@@ -5,7 +5,7 @@ import logging
 import json 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-
+from kafka import KafkaProducer
 
 def fetch_user_data(**kwargs):
     url="https://randomuser.me/api/"
@@ -44,7 +44,14 @@ def format_data(**kwargs):
 
 
 def stream_data(**kwargs):
+    BOOSTRAP_SERVER="localhost:9092"
     data_to_stream=kwargs["ti"].xcom_pull(key="format_data", task_ids="format_data")
+    
+    data_to_stream=json.dumps(data_to_stream)
+    
+    kafka_producer=KafkaProducer(bootstrap_servers='localhost:9092')
+    
+    kafka_producer.send(topic="stream", value=data_to_stream.encode())
 
 
 
