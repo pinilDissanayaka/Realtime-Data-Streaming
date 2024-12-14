@@ -2,7 +2,7 @@ import requests
 import time
 from datetime import datetime
 import logging
-import json
+import json 
 
 
 def fetch_user_data():
@@ -19,12 +19,30 @@ def fetch_user_data():
         return response_data
     else:
         return
-        
+    
+
+def format_data(json_data):
+    formated_data={}
+
+    formated_data["name"] = str(json_data["results"][0]["name"]["first"]) + str(json_data["results"][0]["name"]["last"])
+    formated_data["city"] = str(json_data["results"][0]["location"]["city"]) 
+    formated_data["country"] = str(json_data["results"][0]["location"]["country"]) 
+    formated_data["email"] = str(json_data["results"][0]["email"]) 
+    formated_data["dob"] = str(json_data["results"][0]["dob"]["date"])
+    formated_data["age"] = str(json_data["results"][0]["dob"]["age"]) 
+    formated_data["phone"] = str(json_data["results"][0]["phone"])
+    formated_data["picture"] = str(json_data["results"][0]["picture"]["thumbnail"])
+
+
+    return formated_data
 
 
 
 
 
 
-fetch_user_data()
+
+
+
+format_data(fetch_user_data())
 
