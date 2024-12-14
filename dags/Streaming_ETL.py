@@ -29,7 +29,7 @@ def format_data(**kwargs):
     
     formated_data={}
 
-    formated_data["name"] = str(json_data["results"][0]["name"]["first"]) + str(json_data["results"][0]["name"]["last"])
+    formated_data["name"] = str(json_data["results"][0]["name"]["first"]) + " " + str(json_data["results"][0]["name"]["last"])
     formated_data["city"] = str(json_data["results"][0]["location"]["city"]) 
     formated_data["country"] = str(json_data["results"][0]["location"]["country"]) 
     formated_data["email"] = str(json_data["results"][0]["email"]) 
@@ -44,14 +44,15 @@ def format_data(**kwargs):
 
 
 def stream_data(**kwargs):
-    BOOSTRAP_SERVER="localhost:9092"
+    server="localhost"
+    port="9092"
     data_to_stream=kwargs["ti"].xcom_pull(key="format_data", task_ids="format_data")
     
     data_to_stream=json.dumps(data_to_stream)
     
-    kafka_producer=KafkaProducer(bootstrap_servers='localhost:9092')
+    kafka_producer=KafkaProducer(bootstrap_servers=f"{server}:{port}")
     
-    kafka_producer.send(topic="stream", value=data_to_stream.encode())
+    kafka_producer.send(topic="stream", value=data_to_stream.encode("utf-8"))
 
 
 
