@@ -44,6 +44,10 @@ def format_data(**kwargs):
 
 
 
+def stream_data(**kwargs):
+    data_to_stream=kwargs["ti"].xcom_pull(task_id="format_data", key="format_data")
+
+    
 
 
 
