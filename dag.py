@@ -5,7 +5,7 @@ import logging
 import json 
 
 
-def fetch_user_data():
+def fetch_user_data(**kwargs):
     try:
         url="https://randomuser.me/api/"
 
@@ -16,12 +16,18 @@ def fetch_user_data():
 
     if response.status_code == 200:
         response_data=json.loads(response.text)
-        return response_data
+
+        kwargs["ti"].xcom_push(key="responce_data", value=response_data)
+
     else:
-        return
+        raise RuntimeError
+        
+
     
 
-def format_data(json_data):
+def format_data(**kwargs):
+    json_data=kwargs["ti"].xcom_pull(task_id="fetch_user_data", key="response_data")
+    
     formated_data={}
 
     formated_data["name"] = str(json_data["results"][0]["name"]["first"]) + str(json_data["results"][0]["name"]["last"])
@@ -34,7 +40,7 @@ def format_data(json_data):
     formated_data["picture"] = str(json_data["results"][0]["picture"]["thumbnail"])
 
 
-    return formated_data
+    kwargs["ti"].xcom_push(key="format_data", value=formated_data)
 
 
 
