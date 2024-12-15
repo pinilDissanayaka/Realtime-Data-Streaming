@@ -1,0 +1,3 @@
+airflow
+cassandra
+sqlalchemy
