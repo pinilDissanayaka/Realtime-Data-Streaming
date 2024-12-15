@@ -8,7 +8,7 @@ from airflow.operators.python import PythonOperator
 from kafka import KafkaProducer
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-
+from uuid import uuid4
 
 def fetch_user_data(**kwargs):
     url="https://randomuser.me/api/"
@@ -30,6 +30,7 @@ def format_data(**kwargs):
     
     formated_data={}
 
+    formated_data["id"] = str(uuid4())
     formated_data["name"] = str(json_data["results"][0]["name"]["first"]) + " " + str(json_data["results"][0]["name"]["last"])
     formated_data["city"] = str(json_data["results"][0]["location"]["city"]) 
     formated_data["country"] = str(json_data["results"][0]["location"]["country"]) 
