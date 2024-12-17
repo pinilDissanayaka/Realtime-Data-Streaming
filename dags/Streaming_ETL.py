@@ -61,7 +61,7 @@ def stream_data(**kwargs):
 default_args={
     "owner": "Pinil Dissanyaka",
     "depends_on_past": False,
-    "start_date": datetime(2024, 12, 7),
+    "start_date": datetime(2024, 12, 17),
     "email": ["pinildissanayaka@gmail.com"],
     "email_on_failure": False,
     "email_on_retry": False,
