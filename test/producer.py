@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 
 
 
-def fetch_user_data(**kwargs):
+def fetch_user_data():
     url="https://randomuser.me/api/"
 
     response=requests.get(url=url)
