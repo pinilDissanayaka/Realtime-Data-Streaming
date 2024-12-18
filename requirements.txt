@@ -1,3 +1,4 @@
-airflow
+apache-airflow
 cassandra
 sqlalchemy
+python-kafka
